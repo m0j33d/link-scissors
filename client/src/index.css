@@ -1,0 +1,23 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+
+.navbar {
+    background-color: #f8f8f8;
+  }
+  
+.navbar-brand {
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+  
+  .navbar-link {
+    color: #333;
+    text-decoration: none;
+    margin-right: 1rem;
+  }
+  
+  .navbar-link:hover {
+    color: white;
+  }
