@@ -43,9 +43,9 @@ const Navbar = ({ logged_in }: { logged_in: boolean }) => {
           </li>
 
           <li key={2}>
-            <button className="hover:cursor-pointer mx-4 border px-12 p-2 rounded-lg bg-[#efefef] hover:bg-[#0087cb]" onClick={handleLogout}>
+            <span className="hover:cursor-pointer mx-4 border px-12 p-2 rounded-lg bg-[#efefef] hover:bg-[#0087cb]" onClick={handleLogout}>
               Logout
-            </button>
+            </span>
           </li>
         </ul>
       }

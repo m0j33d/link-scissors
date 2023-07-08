@@ -16,7 +16,7 @@ const ShortenUrlPage = ({ logged_in, user }: { logged_in: boolean, user: any }) 
     initialValues: {
       url: "",
       custom_alias: "",
-      user_id: user._id ?? null
+      user_id: user?._id
     },
     validationSchema: Yup.object({
       url: Yup.string()

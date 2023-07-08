@@ -5,15 +5,19 @@ import { Navigate } from 'react-router-dom';
 import QRCodeViewer from '../components/QRCodeViewer';
 import { getLinks } from '../services/shortner';
 import { getQRcode } from '../services/shortner';
+import { ThreeDots } from "react-loader-spinner"
+
 
 const MyLinks = ({ logged_in, user }: { logged_in: boolean, user: any }) => {
   const [shortenedLinks, setShortenedLinks] = useState([]);
   const [generateCode, setGeneratedCode] = useState(null);
+  const [isLoading, setIsLoading ] = useState(true)
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await getLinks({ user_id: user._id });
+        const response = await getLinks({ user_id: user?._id });
+        setIsLoading(false)
         setShortenedLinks(response)
 
       } catch (error) {
@@ -24,7 +28,7 @@ const MyLinks = ({ logged_in, user }: { logged_in: boolean, user: any }) => {
 
     fetchData();
 
-  }, [user._id]);
+  }, [user?._id]);
 
   const handleQRcodeGenerate = async (url: string) => {
     const res = await getQRcode({ url });
@@ -76,7 +80,21 @@ const MyLinks = ({ logged_in, user }: { logged_in: boolean, user: any }) => {
           </tbody>
 
         </table>
-        {!shortenedLinks.length && <div className='w-full text-center my-12 '> You have no shortened links</div>}
+
+        {isLoading && !shortenedLinks.length && <section className='w-screen my-32 flex justify-center'>
+                <ThreeDots
+                    height="80"
+                    width="80"
+                    radius="9"
+                    color="#015BB5"
+                    ariaLabel="three-dots-loading"
+                    wrapperStyle={{}}
+                    visible={true}
+                />
+            </section>
+            }
+
+        {!isLoading && !shortenedLinks.length && <div className='w-full text-center my-12 '> You have no shortened links</div>}
 
       </div>
     </>
