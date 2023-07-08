@@ -2,10 +2,14 @@ import express, { Application } from 'express';
 import server from './utils/server';
 import * as dotenv from 'dotenv';
 import cors, { CorsOptions } from 'cors';
-import { auth } from 'express-openid-connect';
 import { rateLimit } from 'express-rate-limit';
+import cookieParser from "cookie-parser";
+import path from "path";
+import passport from "passport";
+
 
 import { NotFoundRoute } from './routes/404.route';
+import { AuthRoutes } from './routes/auth.route';
 import { shortnerRoutes } from './routes/url.route';
 import { redirectRoutes } from './routes/redirect.route';
 
@@ -23,17 +27,9 @@ const limiter = rateLimit({
 	windowMs: 10 * 60 * 1000,
 	max: 1200,
 	standardHeaders: true,
+	message: "Too many requests from your IP address, please try again later.",
 	legacyHeaders: false,
 });
-
-const config = {
-	authRequired: false,
-	auth0Logout: true,
-	secret: process.env.AUTH0_SECRET,
-	baseURL: process.env.APP_URL,
-	clientID: process.env.AUTH0_CLIENT_ID,
-	issuerBaseURL: process.env.AUTH0_ISSUER_BASE_URL
-};
 
 
 const app: Application = express();
@@ -41,13 +37,22 @@ const app: Application = express();
 // server config
 app.use(cors(cors_options));
 app.use(limiter);
-app.use(express.json());
 
-// auth router attaches /login, /logout, and /callback routes to the baseURL
-app.use(auth(config));
+// Body parsers middlewares
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+app.use(cookieParser());
+
+app.use(express.static(path.join(__dirname, "public")));
+
+// Initialize passport
+app.use(passport.initialize());
+require("./middleware/passport");
 
 // routes
 app.use('/', redirectRoutes);
+app.use('/auth', AuthRoutes);
 app.use('/urls/shorten', shortnerRoutes);
 
 // error
