@@ -87,7 +87,7 @@ userSchema.methods.genResetToken = function () {
   const token = crypto.randomBytes(32).toString("hex");
   const hashedToken = crypto.createHash("sha256").update(token).digest("hex");
   this.passwordResetToken = hashedToken;
-  this.passwordResetTokenExpiryTime = Date.now() + 10 * 60 * 1000;
+  this.passwordResetTokenExpiryTime = Date.now() + 60 * 60 * 1000;
   // console.log(token, hashedToken);
   return token;
 };

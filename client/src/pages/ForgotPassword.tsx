@@ -4,6 +4,8 @@ import { useState } from "react";
 import { Navigate } from "react-router-dom";
 
 import { forgotPassword } from "../services/auth";
+import LinkScissorLogo from '../assets/images/logo.svg';
+
 
 
 export default function ForgotPassword() {
@@ -37,7 +39,9 @@ export default function ForgotPassword() {
         <>
             <div className="conatiner flex flex-col w-screen h-screen ">
                 <section className="m-auto text-center md:w-96 max-w-2xl">
-                    <p className="logo-text">LinkScissor</p>
+                    <a href="/" className='flex justify-center my-6'>
+                        <img src={LinkScissorLogo} className="w-24 h-24" alt="Logo" />
+                    </a>
 
                     <h2> Retrieve your LinkScissor account</h2>
                     <p className="font-thin">
@@ -56,7 +60,7 @@ export default function ForgotPassword() {
                         {errors.email && <span className="error">{errors.email}</span>}
                        
                         <button
-                            className="button"
+                            className="button  my-4"
                             onClick={() => {
                                 submitForm();
                             }}

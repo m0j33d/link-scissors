@@ -4,6 +4,7 @@ const LOGIN_USER = "loginUser";
 const SET_USER = "setUser";
 const SET_LOGGED_IN = "setLoggedOut";
 const RESET = "reset";
+const SET_ALERT_DETAILS = "setAlert"
 
   export const initialState = {
     api_host: process.env.REACT_APP_API_URL,
@@ -19,7 +20,6 @@ const RESET = "reset";
       case RESET:
         return initialState;
       case LOGIN_USER:
-        console.log( action.payload)
         return {
           ...state,
           user_token: action.payload,
@@ -35,6 +35,11 @@ const RESET = "reset";
           ...state,
           logged_in: action.payload,
         };
+      case SET_ALERT_DETAILS:
+          return {
+            ...state,
+            alert_details: action.payload,
+          };
       default:
         return state;
     }

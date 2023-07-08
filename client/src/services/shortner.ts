@@ -2,7 +2,9 @@ import api from './api';
 import { store } from "../redux/store";
 
 
-export const getAnalytics = async ({ link }) => {
+
+
+export const getAnalytics = async ({ link } : { link:string }) => {
     try {
         const token = store.getState().user_token;
         const params = new URLSearchParams({ link });

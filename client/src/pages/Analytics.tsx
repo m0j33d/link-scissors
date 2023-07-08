@@ -18,7 +18,7 @@ const Shortner = () => {
 
   return (
     <>   
-     <Navbar links={navLinks}/>
+     <Navbar/>
     </>
   );
 };

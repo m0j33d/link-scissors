@@ -1,17 +1,11 @@
-import React from 'react';
+import { Link } from "react-router-dom";
 import Navbar from '../components/Navbar';
 import illustartion from '../assets/images/illustration.gif'
 
 const Home = () => {
-  const authLink = `${process.env.REACT_APP_API_URL}/login`;
-  const navLinks = [
-    { label: 'Login', url: authLink },
-    { label: 'Sign Up', url: authLink },
-  ];
-
   return (
     <>
-      <Navbar links={navLinks} />
+      <Navbar />
 
       <div className='flex w-screen h-full'>
         <section className='w-1/2 my-auto mx-12'>
@@ -22,9 +16,9 @@ const Home = () => {
           </p>
 
           <div className='my-8'>
-            <a href={authLink} className='bg-[#0087CB] px-6 py-4 my-4 hover:bg-[#3757c0] rounded-full text-white'>
+            <Link to="/register" className='bg-[#0087CB] px-6 py-4 my-4 hover:bg-[#3757c0] rounded-full text-white'>
               Get Started for free
-            </a>
+            </Link>
           </div>
         </section>
         <section className='w-1/2 m-auto p-18 pr-24'>

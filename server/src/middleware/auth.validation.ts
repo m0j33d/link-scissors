@@ -32,7 +32,6 @@ export default class ValidateAuthRoutes {
                 email: Joi.string().email().required(),
                 password: Joi.string().required(),
             });
-            console.log(req.body)
             const { error } = schema.validate(req.body);
 
             if (error) {

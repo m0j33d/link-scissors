@@ -1,14 +1,14 @@
-import React from 'react';
 import LinkScissorLogo from '../assets/images/logo.svg';
+import { logout } from "../services/auth";
+import { Link } from "react-router-dom";
+import { connect } from "react-redux";
 
-interface NavbarProps {
-  links: {
-    label: string;
-    url: string;
-  }[];
-}
 
-const Navbar: React.FC<NavbarProps> = ({ links }) => {
+const Navbar = ({ logged_in }: { logged_in: boolean }) => {
+  const handleLogout = async () => {
+    await logout();
+  };
+
   return (
     <nav className='navbar flex items-center justify-between px-6 py-6'>
       <a href="/" className='flex justify-between my-auto'>
@@ -16,15 +16,41 @@ const Navbar: React.FC<NavbarProps> = ({ links }) => {
         <h1 className='bold text-xl my-auto mx-4'>LinkScissors</h1>
       </a>
 
-      <ul className="flex">
-        {links.map((link, index) => (
-          <li key={index}>
-            <a className="navbar-link border px-12 p-2 rounded-lg bg-[#efefef] hover:bg-[#0087cb]" href={link.url}>{link.label}</a>
+
+      {!logged_in &&
+        <ul className="flex">
+          <li key={1}>
+            <Link className=" border px-12 p-2 rounded-lg bg-[#efefef] hover:bg-[#0087cb]" to="/login">
+              Login
+            </Link>
           </li>
-        ))}
-      </ul>
-    </nav>
+
+          <li key={2}>
+            <Link className=" border px-12 p-2 mx-4 rounded-lg bg-[#efefef] hover:bg-[#0087cb]" to="/register">Sign Up
+            </Link>
+          </li>
+        </ul>
+
+      }
+
+
+      {logged_in &&
+        <ul className="flex">
+          <li key={3}>
+            <a className="hover:cursor-pointer border px-12 p-2 rounded-lg bg-[#efefef] hover:bg-[#0087cb]" onClick={handleLogout}>
+              Logout
+            </a>
+          </li>
+        </ul>
+      }
+    </nav >
   );
 };
 
-export default Navbar;
+const mapStateToProps = (state: any) => {
+  return {
+    logged_in: state.logged_in,
+  };
+};
+
+export default connect(mapStateToProps)(Navbar);

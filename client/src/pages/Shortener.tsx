@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import Navbar from '../components/Navbar';
+import { connect } from "react-redux";
+import { Navigate } from 'react-router-dom';
 
-const ShortenUrlPage: React.FC = () => {
+const ShortenUrlPage = ({logged_in, user} : {logged_in:boolean, user:any} ) => {
   const [inputUrl, setInputUrl] = useState('');
   const [shortenedUrl, setShortenedUrl] = useState('http://localhost:3000/short');
 
@@ -17,13 +19,14 @@ const ShortenUrlPage: React.FC = () => {
 
     setShortenedUrl('Shortened URL goes here');
   };
-  const navLinks = [
-    { label: 'Logout', url: `${process.env.REACT_APP_API_URL}/logout` },
-  ];
+
+  if (!logged_in) {
+    return <Navigate to="/login" />;
+}
 
   return (
     <>
-      <Navbar links={navLinks} />
+      <Navbar />
         <div className="flex flex-col items-center justify-center m-48">
           <h1 className="text-3xl font-bold mb-4">Shorten a long link</h1>
           <form className="flex" onSubmit={handleFormSubmit}>
@@ -59,4 +62,11 @@ const ShortenUrlPage: React.FC = () => {
   );
 };
 
-export default ShortenUrlPage;
+const mapStateToProps = (state : any ) => {
+  return {
+      logged_in: state.logged_in,
+      user: state.user?.data,
+  };
+};
+
+export default connect(mapStateToProps)(ShortenUrlPage);

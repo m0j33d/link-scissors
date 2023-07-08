@@ -4,24 +4,20 @@ import { useState } from "react";
 import { Navigate } from "react-router-dom";
 
 import { resetPassword } from "../services/auth";
+import LinkScissorLogo from '../assets/images/logo.svg';
 
 
 export default function ResetPassword() {
     const [redirect, setRedirect] = useState(false);
-    const token = window.location.pathname.split("/")[2];
     const queryParams = new URLSearchParams(window.location.search)
-    const email = queryParams.get("email") ?? ''
+    const token = queryParams.get("token") ?? ''
 
     const formik = useFormik({
         initialValues: {
-            email: email,
             password: "",
             password_confirmation: "",
         },
         validationSchema: Yup.object({
-            email: Yup.string()
-                .required("email is requied field")
-                .email("please enter correct email"),
             password: Yup.string()
                 .required("password is required")
                 .min(6, "password must be of 6 characters"),
@@ -41,7 +37,7 @@ export default function ResetPassword() {
         }
     })
 
-    if (redirect) return <Navigate to="/sign-in" />;
+    if (redirect) return <Navigate to="/login" />;
 
 
     const { values, errors, submitForm, isSubmitting, handleChange } = formik;
@@ -50,21 +46,13 @@ export default function ResetPassword() {
         <>
             <div className="flex flex-col w-screen h-screen ">
                 <section className="m-auto text-center md:w-96 max-w-2xl">
-                    <p className="logo-text">LinkScissor</p>
-
+                    <a href="/" className='flex justify-center my-6'>
+                        <img src={LinkScissorLogo} className="w-24 h-24" alt="Logo" />
+                    </a>
                     <h2> Create a new password</h2>
 
 
                     <div className="flex flex-col my-8">
-                        <label htmlFor="email" className="form-label" >Email</label>
-                        <input
-                            placeholder="email"
-                            name="email"
-                            className="form-input"
-                            onChange={handleChange}
-                            value={values.email}
-                        />
-                        {errors.email && <span className="error">{errors.email}</span>}
 
                         <label htmlFor="password" className="form-label" >Password</label>
                         <input
@@ -89,7 +77,7 @@ export default function ResetPassword() {
                         {errors.password_confirmation && <span className="error">{errors.password_confirmation}</span>}
 
                         <button
-                            className="button"
+                            className="button  my-4"
                             onClick={() => {
                                 submitForm();
                             }}

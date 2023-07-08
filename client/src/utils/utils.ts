@@ -1,9 +1,9 @@
 import axios from "axios";
-
-const SET_LOGGED_IN = "setLoggedOut";
-
 import { store } from "../redux/store";
 
+
+const SET_LOGGED_IN = "setLoggedOut";
+const SET_ALERT_DETAILS = "setAlert";
 
 export const authService = () => {
   axios.interceptors.response.use(
@@ -25,4 +25,17 @@ export const authService = () => {
       return Promise.reject(error);
     }
   );
+};
+
+export const showAlert = (details : any) => {
+  setAlertDetails(details);
+
+  setTimeout(() => setAlertDetails(null), 5000);
+}; 
+
+export const setAlertDetails = (data : {type: string , msg:string} | null) => {
+  store.dispatch({
+    type: SET_ALERT_DETAILS,
+    payload: data,
+  });
 };

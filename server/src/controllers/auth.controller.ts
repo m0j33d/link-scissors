@@ -14,7 +14,7 @@ export const signUp = async (req: Request, res: Response): Promise<void | Respon
     if (userExists)
         return res.status(421).json({
             status: false,
-            message: "User exists"
+            message: "User already exists"
         });
 
     const user = await User.create({
@@ -41,7 +41,11 @@ export const signIn = async (req: Request, res: Response): Promise<void | Respon
 
     const user = await User.findOne({ email }).select("+password");
 
-    if (!user || !(await user.isCorrectPassword(password))) throw new BaseError('Email or Password incorrect.', 401);
+    if (!user || !(await user.isCorrectPassword(password))) 
+        return res.status(401).json({
+            status: false,
+            message: "Email or Password incorrect."
+        });
 
     user.password = '';
     user.__v = undefined;
@@ -63,11 +67,9 @@ export const forgotPassword = async (req: Request, res: Response): Promise<void 
     const resetToken = user.genResetToken();
     user.save({ validateBeforeSave: false }); // persists the changes made in  genResetToken function
 
-    const resetPasswordURL = `${req.protocol}://${req.get(
-        "host"
-    )}/resetpassword?token=${resetToken}`;
-    const body = `Hi ${user.fullName},\nWe received a request to reset your LinkScissor account password.\nTo reset your password, please click on this link:\n${resetPasswordURL}.\nIf you did not request a password reset, please ignore this email.`;
-    const subject = "Password Reset Token (valid for 10 min)";
+    const resetPasswordURL = `${process.env.FRONTEND_URL || "http://localhost:3000" }/reset-password?token=${resetToken}&email=${email}`;
+    const body = `Hi ${user.fullName},\nWe received a request to reset your LinkScissor account password.\nTo reset your password, please click on this link:\n${resetPasswordURL}.\nIf you did not request a password reset, please ignore this email. `;
+    const subject = "LinkScissors Password Reset Link.";
     try {
         await Mailer({ email, body, subject });
         return res.status(200).json({
@@ -95,25 +97,21 @@ export const resetPassword = async (req: Request, res: Response): Promise<void |
         passwordResetTokenExpiryTime: { $gt: Date.now() }, // this confirms that the token hasn't expired
     });
     if (!user)
-        throw new BaseError("Password reset token is invalid or has expired!", 400)
+        return res.status(400).json({
+            status: false,
+            message: "Password reset token is invalid or has expired!",
+        });
 
     const { password, confirmPassword } = req.body;
-    // Resets the password
     user.password = password;
     user.confirmPassword = confirmPassword;
-    // clears the passwordResetToken details on successful password update
+    
     user.passwordResetToken = undefined;
     user.passwordResetTokenExpiryTime = undefined;
-    await user.save({ validateModifiedOnly: true }); // saves and update the passwordModifiedAt field
-    // 4) Log the user in, send JWT
-    user.password = '';
-    user.passwordModifiedAt = undefined;
-
-    const jwttoken = generateToken(user);
+    await user.save({ validateModifiedOnly: true }); 
 
     return res.status(200).json({
         status: true,
-        token: jwttoken,
-        user,
+        message: "Password reset successful, Please login with new password",
     });
 };
