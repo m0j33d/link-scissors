@@ -1,47 +1,46 @@
-# LinkScissors (Express, React, Typescript, Mongo DB)
+# Getting Started with Create React App
 
-LinkScissors  is a web server application is built to shorten URLs ([see it here](https://github.com/m0j33d/link-scissors)), which is currently under development too.
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-### Links
-- Live Site URL: [live link](https://)
+## Available Scripts
 
-### Scripts for testing
+In the project directory, you can run:
 
-Make sure you have installed **Node.js (v16.15.3 or later recommended) which also comes with npm**.\
-In the project directory, you can run in terminal:
+### `npm start`
 
-```bash
- cd server && npm run dev 
- cd client && npm run start
-```
+Runs the app in the development mode.\
+Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-Runs the app in the development mode and the server will reload when you make changes to the source code.
+The page will reload if you make edits.\
+You will also see any lint errors in the console.
 
-```bash
-cd server && npm run build 
-cd client && npm run build 
+### `npm test`
 
-```
+Launches the test runner in the interactive watch mode.\
+See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-Builds the app for production to the **dist folder**.
+### `npm run build`
 
-```bash
-npm cd server && run start
-```
+Builds the app for production to the `build` folder.\
+It correctly bundles React in production mode and optimizes the build for the best performance.
 
-Builds and starts the server for prodution.
+The build is minified and the filenames include the hashes.\
+Your app is ready to be deployed!
 
-### Disclaimer
+See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-This application was made for pratice, learn and for improving my
-coding skills only. Do not use this application for commercial or
-professional purposes but you're free to test. Please understand that
-all saved shortned urls are periodicaly deleted from the database to avoid higher server costs and that will lead them
-to stop working.
+### `npm run eject`
 
-## Contact
+**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
 
-E-mail: [mojeedeji@gmail.com](mojeedeji@gmail.com 'Send an email')\
-Github: [https://github.com/m0j33d](https://github.com/m0j33d 'See my github profile')  
+If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-### If you like this project, please consider leaving a star on this repository.
+Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+
+You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+
+## Learn More
+
+You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+
+To learn React, check out the [React documentation](https://reactjs.org/).
