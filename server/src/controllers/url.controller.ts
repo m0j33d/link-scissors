@@ -21,16 +21,30 @@ export const createShortUrl = async (req: IReq, res: IRes): Promise<void | IRes>
 	const baseUrl = process.env.BASE_URL || '';
 
 	if (!validUrl.isUri(baseUrl))
-		throw new BaseError('Invalid base url, check and try again.', 400);
+		return res.status(400).json({
+			status: false,
+			message: "Invalid base url, check and try again.",
+		});
+
 	if (!validUrl.isUri(url))
-		throw new BaseError('Invalid url, check and try again.', 400);
+		return res.status(400).json({
+			status: false,
+			message: "Invalid url, check and try again..",
+		});
 
 	const urlsCount = await UrlModel.count({ short_url: url });
 	if (urlsCount !== 0)
-		throw new BaseError("Please don't submit already shortened urls", 400);
+		return res.status(400).json({
+			status: false,
+			message: "Please don't submit already shortened urls",
+		});
 
 	const savedUrl = await UrlModel.findOne({ full_url: url });
-	if (savedUrl) throw new BaseError('Url already shortned', 409);
+	if (savedUrl) 
+		return res.status(400).json({
+			status: false,
+			message: "Url already shortned",
+		});
 
 	const url_id = custom_alias ?? shortId.generate();
 	const short_url = baseUrl + '/s/' + url_id;
@@ -38,7 +52,10 @@ export const createShortUrl = async (req: IReq, res: IRes): Promise<void | IRes>
 	
     await Cache.redis?.set(`url:${newShortUrl.custom_alias}`, JSON.stringify(url));
 
-	res.status(201).json(newShortUrl);
+	res.status(201).json({
+		"status" : true,
+		"data" : newShortUrl
+	});
 };
 
 export const generateQRCode = async (req: IReq, res: IRes): Promise<void | IRes> => {
@@ -53,11 +70,15 @@ export const generateQRCode = async (req: IReq, res: IRes): Promise<void | IRes>
 		scale: 4,
 	  },
 	  (err, dataURI) => {
-		if (err) throw new BaseError("Error generating QR code, try again!", 500);
-
+		if (err) 
+			return res.status(500).json({ 
+				status: false, 
+				message: "Error generating QR code, try again!"
+			});
+		
 		return res
 		  .status(201)
-		  .json({ status: "success", data: { url: dataURI } });
+		  .json({ status: true, data: { url: dataURI } });
 	  }
 	);
 }

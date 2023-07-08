@@ -54,7 +54,7 @@ require("./middleware/passport");
 // routes
 app.use('/', redirectRoutes);
 app.use('/auth', AuthRoutes);
-app.use('/urls/shorten', shortnerRoutes);
+app.use('/url/shorten', shortnerRoutes);
 
 // error
 app.use(NotFoundRoute);

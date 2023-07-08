@@ -44,8 +44,6 @@ const ShortenUrlPage = ({ logged_in, user }: { logged_in: boolean, user: any }) 
     const res = await getQRcode({ url: shortenedUrl});
 
     setGeneratedCode(res?.data?.url)
-    console.log(res)
-
   }
   if (!logged_in) {
     return <Navigate to="/login" />;
