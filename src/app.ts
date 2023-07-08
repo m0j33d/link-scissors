@@ -20,7 +20,7 @@ const PORT = process.env.PORT || 3500;
 const cors_options: CorsOptions = {
 	origin: [
 		'http://localhost:3500',
-		'http://localhost:3000',
+		'https://link-scissors-backend.onrender.com',
 		'http://127.0.0.1:5173',
 	],
 };
