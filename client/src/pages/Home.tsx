@@ -1,8 +1,13 @@
-import { Link } from "react-router-dom";
+import { Navigate, Link } from "react-router-dom";
 import Navbar from '../components/Navbar';
 import illustartion from '../assets/images/illustration.gif'
+import { store } from "../redux/store";
 
 const Home = () => {
+  const logged_in =  store.getState().logged_in;
+
+  if (logged_in) return <Navigate to="/shortner" />
+
   return (
     <>
       <Navbar />
