@@ -1,5 +1,4 @@
 
-const GET_ANALYTICS= "getAnalytics";
 const LOGIN_USER = "loginUser";
 const SET_USER = "setUser";
 const SET_LOGGED_IN = "setLoggedOut";

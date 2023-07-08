@@ -16,7 +16,7 @@ const ShortenUrlPage = ({ logged_in, user }: { logged_in: boolean, user: any }) 
     initialValues: {
       url: "",
       custom_alias: "",
-      user_id: user._id
+      user_id: user._id ?? null
     },
     validationSchema: Yup.object({
       url: Yup.string()
@@ -40,6 +40,10 @@ const ShortenUrlPage = ({ logged_in, user }: { logged_in: boolean, user: any }) 
     }
   })
 
+  if (!logged_in) {
+    return <Navigate to="/login" />;
+  }
+
   const { values, errors, submitForm, isSubmitting, handleChange } = formik;
 
   const handleQRcodeGenerate = async () => {
@@ -47,9 +51,7 @@ const ShortenUrlPage = ({ logged_in, user }: { logged_in: boolean, user: any }) 
 
     setGeneratedCode(res?.data?.url)
   }
-  if (!logged_in) {
-    return <Navigate to="/login" />;
-  }
+
 
   return (
     <>

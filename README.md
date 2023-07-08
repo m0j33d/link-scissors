@@ -1,6 +1,6 @@
-# URL Shortner (Node.JS, Typescript, Mongo DB)
+# LinkScissors (Express, React, Typescript, Mongo DB)
 
-This web server application is built to shorten URLs ([see it here](https://github.com/m0j33d/url-shortner)), which is currently under development too.
+LinkScissors  is a web server application is built to shorten URLs ([see it here](https://github.com/m0j33d/link-scissors)), which is currently under development too.
 
 ### Project status
 

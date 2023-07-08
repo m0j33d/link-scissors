@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import Navbar from '../components/Navbar';
 import { connect } from "react-redux";
 import { Navigate } from 'react-router-dom';
@@ -24,7 +24,7 @@ const MyLinks = ({ logged_in, user }: { logged_in: boolean, user: any }) => {
 
     fetchData();
 
-  }, []);
+  }, [user._id]);
 
   const handleQRcodeGenerate = async (url: string) => {
     const res = await getQRcode({ url });
@@ -54,10 +54,10 @@ const MyLinks = ({ logged_in, user }: { logged_in: boolean, user: any }) => {
             {!!shortenedLinks.length && shortenedLinks.map((item: any) => (
               <tr key={item?.id}>
                 <td className="py-2 px-4 border-b text-center">
-                  <a className="text-blue-500 hover:underline" href={item.full_url} target='_blank'>{item.full_url}</a>
+                  <a className="text-blue-500 hover:underline" rel="noreferrer" href={item.full_url} target='_blank'>{item.full_url}</a>
                 </td>
                 <td className="py-2 px-4 border-b text-center">
-                  <a className="text-blue-500 hover:underline" href={item.short_url} target='_blank'>{item.short_url} </a>
+                  <a className="text-blue-500 hover:underline" rel="noreferrer" href={item.short_url} target='_blank'>{item.short_url} </a>
                 </td>
                 <td className="py-2 px-4 border-b text-center">{item.clicks}</td>
                 <td className="py-2 px-4 border-b text-center">
