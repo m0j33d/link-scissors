@@ -36,8 +36,14 @@ const Navbar = ({ logged_in }: { logged_in: boolean }) => {
 
       {logged_in &&
         <ul className="flex">
-          <li key={3}>
-            <a className="hover:cursor-pointer border px-12 p-2 rounded-lg bg-[#efefef] hover:bg-[#0087cb]" onClick={handleLogout}>
+          <li key={1}>
+            <Link to="/links"className="hover:cursor-pointer border px-12 p-2 rounded-lg bg-[#efefef] hover:bg-[#0087cb]">
+              My Links
+            </Link>
+          </li>
+
+          <li key={2}>
+            <a className="hover:cursor-pointer mx-4 border px-12 p-2 rounded-lg bg-[#efefef] hover:bg-[#0087cb]" onClick={handleLogout}>
               Logout
             </a>
           </li>

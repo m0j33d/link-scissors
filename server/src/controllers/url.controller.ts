@@ -1,6 +1,5 @@
 import { Request as IReq, Response as IRes } from 'express';
 import UrlModel from '../models/url.model';
-import BaseError from '../error/base-error';
 import * as validUrl from 'valid-url';
 import * as dotenv from 'dotenv';
 import shortId from 'shortid';
@@ -12,13 +11,26 @@ import Cache from "../config/redis";
 dotenv.config();
 
 export const getShortUrls = async (req: IReq, res: IRes): Promise<void | IRes> => {
-	const shortUrls = await UrlModel.find();
+	const { user_id } = req.query;
+	if (!user_id)
+		return res.status(400).json({
+			status: false,
+			message: "User does not exist.",
+		});
+
+	const shortUrls = await UrlModel.find({ user_id });
 	res.status(200).json(shortUrls);
 };
 
 export const createShortUrl = async (req: IReq, res: IRes): Promise<void | IRes> => {
-	const { url, custom_alias } = req.body;
+	const { url, custom_alias, user_id } = req.body;
 	const baseUrl = process.env.BASE_URL || '';
+
+	if (!user_id)
+		return res.status(400).json({
+			status: false,
+			message: "User does not exist.",
+		});
 
 	if (!validUrl.isUri(baseUrl))
 		return res.status(400).json({
@@ -40,7 +52,7 @@ export const createShortUrl = async (req: IReq, res: IRes): Promise<void | IRes>
 		});
 
 	const savedUrl = await UrlModel.findOne({ full_url: url });
-	if (savedUrl) 
+	if (savedUrl)
 		return res.status(400).json({
 			status: false,
 			message: "Url already shortned",
@@ -48,37 +60,37 @@ export const createShortUrl = async (req: IReq, res: IRes): Promise<void | IRes>
 
 	const url_id = custom_alias ?? shortId.generate();
 	const short_url = baseUrl + '/s/' + url_id;
-	const newShortUrl = await UrlModel.create({ full_url: url, url_id, short_url });
-	
-    await Cache.redis?.set(`url:${newShortUrl.custom_alias}`, JSON.stringify(url));
+	const newShortUrl = await UrlModel.create({ full_url: url, url_id, short_url, user_id });
+
+	await Cache.redis?.set(`url:${newShortUrl.custom_alias}`, JSON.stringify(url));
 
 	res.status(201).json({
-		"status" : true,
-		"data" : newShortUrl
+		"status": true,
+		"data": newShortUrl
 	});
 };
 
 export const generateQRCode = async (req: IReq, res: IRes): Promise<void | IRes> => {
 	const { url } = req.body as { url: string };
-  
+
 	QRCode.toDataURL(
-	url,
-	  {
-		errorCorrectionLevel: "H",
-		type: "image/png",
-		margin: 4,
-		scale: 4,
-	  },
-	  (err, dataURI) => {
-		if (err) 
-			return res.status(500).json({ 
-				status: false, 
-				message: "Error generating QR code, try again!"
-			});
-		
-		return res
-		  .status(201)
-		  .json({ status: true, data: { url: dataURI } });
-	  }
+		url,
+		{
+			errorCorrectionLevel: "H",
+			type: "image/png",
+			margin: 4,
+			scale: 4,
+		},
+		(err, dataURI) => {
+			if (err)
+				return res.status(500).json({
+					status: false,
+					message: "Error generating QR code, try again!"
+				});
+
+			return res
+				.status(201)
+				.json({ status: true, data: { url: dataURI } });
+		}
 	);
 }

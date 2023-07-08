@@ -8,6 +8,7 @@ const Register = lazy(() => import("./pages/Register"));
 const ForgotPassword = lazy(() => import("./pages/ForgotPassword"));
 const ResetPassword = lazy(() => import("./pages/ResetPassword"));
 const Shortener = lazy(() => import("./pages/Shortener"));
+const MyLinks = lazy(() => import("./pages/MyLinks"));
 const PageNotFound = lazy(() => import("./pages/404"));
 
 const App: React.FC = () => {
@@ -24,6 +25,7 @@ const App: React.FC = () => {
 
           {/* Auth routes */}
           <Route path="/shortner" element={<Shortener />} />
+          <Route path="/links" element={<MyLinks />} />
 
           {/* No match */}
           <Route path="*" element={<PageNotFound />} />

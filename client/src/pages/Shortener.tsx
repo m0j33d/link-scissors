@@ -15,13 +15,15 @@ const ShortenUrlPage = ({ logged_in, user }: { logged_in: boolean, user: any }) 
   const formik = useFormik({
     initialValues: {
       url: "",
-      custom_alias: ""
+      custom_alias: "",
+      user_id: user._id
     },
     validationSchema: Yup.object({
       url: Yup.string()
         .url('Invalid URL')
         .required('URL is required'),
-      custom_alias: Yup.string()
+      custom_alias: Yup.string(),
+      user_id: Yup.string().required()
     }),
     onSubmit: async (values) => {
       try {
@@ -40,8 +42,8 @@ const ShortenUrlPage = ({ logged_in, user }: { logged_in: boolean, user: any }) 
 
   const { values, errors, submitForm, isSubmitting, handleChange } = formik;
 
-  const handleQRcodeGenerate = async() => {
-    const res = await getQRcode({ url: shortenedUrl});
+  const handleQRcodeGenerate = async () => {
+    const res = await getQRcode({ url: shortenedUrl });
 
     setGeneratedCode(res?.data?.url)
   }
@@ -72,11 +74,11 @@ const ShortenUrlPage = ({ logged_in, user }: { logged_in: boolean, user: any }) 
             {isSubmitting ? "loading..." : "Shorten"}
 
           </button>
-    
+
         </div>
         {errors.url && <span className="error">{errors.url}</span>}
 
-        
+
         {shortenedUrl && (
           <div className="mt-8 w-96 flex flex-col">
             <p className="text-base">Here is scissored url:</p>
@@ -93,7 +95,7 @@ const ShortenUrlPage = ({ logged_in, user }: { logged_in: boolean, user: any }) 
           </div>
         )}
 
-        { generateCode && <QRCodeViewer data={generateCode} /> }
+        {generateCode && <QRCodeViewer data={generateCode} />}
       </div>
     </>
   );
@@ -102,7 +104,7 @@ const ShortenUrlPage = ({ logged_in, user }: { logged_in: boolean, user: any }) 
 const mapStateToProps = (state: any) => {
   return {
     logged_in: state.logged_in,
-    user: state.user?.data,
+    user: state.user,
   };
 };
 

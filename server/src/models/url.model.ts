@@ -3,6 +3,7 @@ import { Schema, model } from 'mongoose';
 interface IUrl {
 	full_url: string;
 	short_url: string;
+	user_id: string;
 	url_id: string;
 	clicks: Number;
 	custom_alias: string;
@@ -17,6 +18,7 @@ const UrlSchema = new Schema<IUrl>(
 			required: true,
 		},
 		short_url: { type: String, required: true },
+		user_id: { type: String, required: true },
 		custom_alias: { type: String, required: false },
 		url_id: { type: String, required: true },
 		clicks: { type: Number, default: 0 },

@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import { createShortUrl, getShortUrls, generateQRCode } from '../controllers/url.controller';
+import { authenticateToken } from '../middleware/authenticate';
 
 const router = Router();
 router
