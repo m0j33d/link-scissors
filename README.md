@@ -3,7 +3,7 @@
 LinkScissors  is a web server application is built to shorten URLs ([see it here](https://github.com/m0j33d/link-scissors)), which is currently under development too.
 
 ### Links
-- Live Site URL: [live link](https://)
+- Live Site URL: [live link](https://link-scissors.onrender.com/)
 
 ### Scripts for testing
 
