@@ -55,7 +55,7 @@ export const createShortUrl = async (req: IReq, res: IRes): Promise<void | IRes>
 	if (savedUrl)
 		return res.status(400).json({
 			status: false,
-			message: "Url already shortned",
+			message: "Url already shortned. Check MyLinks tab to find the short link",
 		});
 
 	const url_id = custom_alias ?? shortId.generate();
