@@ -56,24 +56,34 @@ const ShortenUrlPage = ({ logged_in, user }: { logged_in: boolean, user: any }) 
   return (
     <>
       <Navbar />
-      <div className="flex flex-col items-center justify-center my-12 md:my-48 w-screen">
-        <h1 className="text-xl md:text-3xl font-bold mb-4">Shorten your long link</h1>
-        <div className="flex flex-col justify-center md:flex-row w-full px-6 md:mx-auto">
+      <div className="flex flex-col items-center justify-center my-12 md:my-24 w-screen">
+        <h1 className="text-xl md:text-3xl font-bold mb-12">Shorten your long link</h1>
+        <div className="flex flex-col justify-center w-full px-6 md:mx-48">
           <input
             name="url"
             type="text"
             value={values.url}
             onChange={handleChange}
-            placeholder="Example: https://super-long-link.com/shorten-it"
-            className="border border-gray-300 rounded-lg md:rounded-r-none px-4 py-2 w-full md:w-96 focus:outline-none focus:ring focus:border-blue-500"
+            placeholder="Enter your super long link..."
+            className="border border-gray-300 rounded-lg px-4 py-2 w-full mx-auto md:w-1/2 focus:outline-none focus:ring focus:border-blue-500"
           />
+
+          <input
+            name="custom_alias"
+            type="text"
+            value={values.custom_alias}
+            onChange={handleChange}
+            placeholder="Enter a custom title"
+            className="border border-gray-300 rounded-lg px-4 my-2 py-2 w-full mx-auto  md:w-1/2 focus:outline-none focus:ring focus:border-blue-500"
+          />
+
           <button
             onClick={() => {
               submitForm();
             }}
-            className="bg-[#0087CB] my-4 md:my-0 text-white font-semibold px-4 py-2  rounded-lg md:rounded-l-none hover:bg-blue-600 focus:outline-none focus:ring"
+            className="bg-[#0087CB] my-4 md:my-0 text-white font-semibold px-4 py-2 mx-auto  md:w-1/2  rounded-lg hover:bg-blue-600 focus:outline-none focus:ring"
           >
-            {isSubmitting ? "loading..." : "Shorten"}
+            {isSubmitting ? "loading..." : "Scissors it"}
 
           </button>
 

@@ -18,16 +18,14 @@ export const getLinks = async ({ user_id } : { user_id:string }) => {
             type: "danger",
         });
 
-        console.log(error)
+        // console.log(error)
     }
 };
 
 export const short = async ({ url, custom_alias, user_id } : { url:string , custom_alias: null | string, user_id: string}) => {
     try {
         const token = store.getState().user_token;
-
-        console.log(user_id)
-        const response = await api.post(`/url/shorten`,  { url, user_id }, {
+        const response = await api.post(`/url/shorten`,  { url, user_id, ...(custom_alias !== "" && { custom_alias }) }, {
             headers: {
                 Authorization: `Bearer ${token}`,
             },
@@ -39,8 +37,6 @@ export const short = async ({ url, custom_alias, user_id } : { url:string , cust
             msg: error.response.data.message,
             type: "danger",
         });
-
-        console.log(error)
     }
 };
 
@@ -60,8 +56,6 @@ export const getQRcode = async ({ url } : { url:string | null}) => {
             msg: error.response.data.message,
             type: "danger",
         });
-
-        console.log(error)
     }
 };
 
@@ -78,7 +72,7 @@ export const getAnalytics = async ({ link } : { link:string }) => {
 
         return response.data;
     } catch (error) {
-        console.log(error)
+        // console.log(error)
     }
 };
 
