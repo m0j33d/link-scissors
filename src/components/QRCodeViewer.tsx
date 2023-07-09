@@ -2,7 +2,7 @@ import React, { useRef } from 'react';
 import { showAlert } from "../utils/utils";
 
 interface QRCodeImageProps {
-  data: string;
+  data: string ;
 }
 
 const QRCodeImage: React.FC<QRCodeImageProps> = ({ data }) => {

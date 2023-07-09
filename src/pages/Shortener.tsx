@@ -56,22 +56,22 @@ const ShortenUrlPage = ({ logged_in, user }: { logged_in: boolean, user: any }) 
   return (
     <>
       <Navbar />
-      <div className="flex flex-col items-center justify-center m-48">
-        <h1 className="text-3xl font-bold mb-4">Shorten a long link</h1>
-        <div className="flex">
+      <div className="flex flex-col items-center justify-center my-12 md:my-48 w-screen">
+        <h1 className="text-xl md:text-3xl font-bold mb-4">Shorten your long link</h1>
+        <div className="flex flex-col justify-center md:flex-row w-full px-6 md:mx-auto">
           <input
             name="url"
             type="text"
             value={values.url}
             onChange={handleChange}
             placeholder="Example: https://super-long-link.com/shorten-it"
-            className="border border-gray-300 rounded-l-lg px-4 py-2 w-96 focus:outline-none focus:ring focus:border-blue-500"
+            className="border border-gray-300 rounded-lg md:rounded-r-none px-4 py-2 w-full md:w-96 focus:outline-none focus:ring focus:border-blue-500"
           />
           <button
             onClick={() => {
               submitForm();
             }}
-            className="bg-[#0087CB] text-white font-semibold px-4 py-2 rounded-r-lg hover:bg-blue-600 focus:outline-none focus:ring"
+            className="bg-[#0087CB] my-4 md:my-0 text-white font-semibold px-4 py-2  rounded-lg md:rounded-l-none hover:bg-blue-600 focus:outline-none focus:ring"
           >
             {isSubmitting ? "loading..." : "Shorten"}
 
@@ -82,13 +82,13 @@ const ShortenUrlPage = ({ logged_in, user }: { logged_in: boolean, user: any }) 
 
 
         {shortenedUrl && (
-          <div className="mt-8 w-96 flex flex-col">
+          <div className="flex flex-col items-center justify-center my-4 md:my-8 w-screen">
             <p className="text-base">Here is scissored url:</p>
             <a
               href={shortenedUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-blue-500 py-4 underline hover:cursor-pointer hover:text-blue-600"
+              className="text-blue-500 text-center py-4 underline hover:cursor-pointer hover:text-blue-600"
             >
               {shortenedUrl}
             </a>

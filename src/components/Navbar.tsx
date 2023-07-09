@@ -18,8 +18,8 @@ const Navbar = ({ logged_in }: { logged_in: boolean }) => {
 
 
       {!logged_in &&
-        <ul className="flex flex-row my-8 justify-evenly md:justify-end w-screen">
-          <li key={1}>
+        <ul className="flex flex-row my-8 md:my-auto justify-evenly md:justify-end w-screen">
+        <li key={1}>
             <Link className=" border px-8 md:px-12 p-2 rounded-lg bg-[#efefef] hover:bg-[#0087cb]" to="/login">
               Login
             </Link>
@@ -35,7 +35,7 @@ const Navbar = ({ logged_in }: { logged_in: boolean }) => {
 
 
       {logged_in &&
-        <ul className="flex flex-row my-8 justify-evenly md:justify-end w-screen">
+        <ul className="flex flex-row my-8 md:my-auto justify-evenly md:justify-end w-screen">
         <li key={1}>
             <Link to="/links"className="hover:cursor-pointer border px-8 md:px-12 p-2 rounded-lg bg-[#efefef] hover:bg-[#0087cb]">
               My Links
