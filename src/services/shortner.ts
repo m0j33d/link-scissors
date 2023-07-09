@@ -25,7 +25,7 @@ export const getLinks = async ({ user_id } : { user_id:string }) => {
 export const short = async ({ url, custom_alias, user_id } : { url:string , custom_alias: null | string, user_id: string}) => {
     try {
         const token = store.getState().user_token;
-        const response = await api.post(`/url/shorten`,  { url, user_id }, {
+        const response = await api.post(`/url/shorten`,  { url, user_id, ...(custom_alias !== "" && { custom_alias }) }, {
             headers: {
                 Authorization: `Bearer ${token}`,
             },
