@@ -25,7 +25,7 @@
   }
 
   .button {
-    @apply bg-blue-500 rounded-xl text-sm md:text-base md:mt-6 p-1 md:p-3 hover:bg-blue-600;
+    @apply bg-blue-500 rounded-xl text-white text-sm md:text-base md:mt-6 p-2 md:p-3 hover:bg-blue-600;
   }
 
   .logo-text {

@@ -11,7 +11,8 @@ import { ThreeDots } from "react-loader-spinner"
 const MyLinks = ({ logged_in, user }: { logged_in: boolean, user: any }) => {
   const [shortenedLinks, setShortenedLinks] = useState([]);
   const [generateCode, setGeneratedCode] = useState(null);
-  const [isLoading, setIsLoading ] = useState(true)
+  const [selectedLink, setSelectedLink] = useState('');
+  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
     const fetchData = async () => {
@@ -32,6 +33,7 @@ const MyLinks = ({ logged_in, user }: { logged_in: boolean, user: any }) => {
 
   const handleQRcodeGenerate = async (url: string) => {
     const res = await getQRcode({ url });
+    setSelectedLink(url);
     setGeneratedCode(res?.data?.url)
   }
   if (!logged_in) {
@@ -41,11 +43,12 @@ const MyLinks = ({ logged_in, user }: { logged_in: boolean, user: any }) => {
   return (
     <>
       <Navbar />
-      <div className="container mx-auto">
 
-        <h1 className="text-2xl font-bold my-8">URL Links</h1>
+      <h1 className="text-xl md:text-2xl font-bold text-center md:mx-16 md:text-left my-6 md:my-8">URL Links</h1>
 
-        <table className="w-full border-collapse">
+      <div className="overflow-x-auto">
+
+        <table className="w-full table-auto">
           <thead>
             <tr>
               <th className="py-2 px-4 border-b">Original Link</th>
@@ -56,24 +59,23 @@ const MyLinks = ({ logged_in, user }: { logged_in: boolean, user: any }) => {
           </thead>
           <tbody>
             {!!shortenedLinks.length && shortenedLinks.map((item: any) => (
-              <tr key={item?.id}>
+              <tr key={item?.short_url}>
                 <td className="py-2 px-4 border-b text-center">
-                  <a className="text-blue-500 hover:underline" rel="noreferrer" href={item.full_url} target='_blank'>{item.full_url}</a>
+                  <a className="text-blue-500 hover:underline text-xs md:text-base" rel="noreferrer" href={item.full_url} target='_blank'>{item.full_url}</a>
                 </td>
                 <td className="py-2 px-4 border-b text-center">
-                  <a className="text-blue-500 hover:underline" rel="noreferrer" href={item.short_url} target='_blank'>{item.short_url} </a>
+                  <a className="text-blue-500 hover:underline text-xs md:text-base" rel="noreferrer" href={item.short_url} target='_blank'>{item.short_url} </a>
                 </td>
-                <td className="py-2 px-4 border-b text-center">{item.clicks}</td>
+                <td className="py-2 px-4 border-b text-center text-xs md:text-base">{item.clicks}</td>
                 <td className="py-2 px-4 border-b text-center">
-                  {generateCode && <QRCodeViewer data={generateCode} />}
+                  {generateCode && selectedLink === item.short_url ? <QRCodeViewer data={generateCode} /> : <button
 
-                  {!generateCode &&  <button
                     onClick={() => handleQRcodeGenerate(item.short_url)}
-                    className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
+                    className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded text-xs md:text-base"
                   >
                     Generate QR Code
                   </button>}
-                 
+
                 </td>
               </tr>
             ))}
@@ -82,17 +84,17 @@ const MyLinks = ({ logged_in, user }: { logged_in: boolean, user: any }) => {
         </table>
 
         {isLoading && !shortenedLinks.length && <section className='w-screen my-32 flex justify-center'>
-                <ThreeDots
-                    height="80"
-                    width="80"
-                    radius="9"
-                    color="#015BB5"
-                    ariaLabel="three-dots-loading"
-                    wrapperStyle={{}}
-                    visible={true}
-                />
-            </section>
-            }
+          <ThreeDots
+            height="80"
+            width="80"
+            radius="9"
+            color="#015BB5"
+            ariaLabel="three-dots-loading"
+            wrapperStyle={{}}
+            visible={true}
+          />
+        </section>
+        }
 
         {!isLoading && !shortenedLinks.length && <div className='w-full text-center my-12 '> You have no shortened links</div>}
 
